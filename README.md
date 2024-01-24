@@ -29,6 +29,11 @@ status,jan,mfci,message,price,currency
 ```
 The csv file must include the following headers as they are required parameters: jan, status.
 
+Set this to False (line 18) so that the script is not in test mode.
+```
+sandbox_mode = True
+```
+
 Run the script with the following command:
 ```
 python main.py
