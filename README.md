@@ -27,7 +27,7 @@ status,jan,mfci,message,price,currency
 1,1234567890123,123,This is a comment for product 1,2000,USD
 0,9876543210987,456,Another comment for product 2,1500,EUR
 ```
-The csv file must include the following headers as they are required parameters: key, jan, status, s.
+The csv file must include the following headers as they are required parameters: jan, status.
 
 Run the script with the following command:
 ```
