@@ -17,23 +17,6 @@ NOTIFY_ENDPOINT = "https://myfigurecollection.net/papi.php?mode=notify-availabil
 
 sandbox_mode = True
 
-'''
-Required parameters (POST variables):
-key - Your public key. (STRING)
-jan - JAN code of the item you want users to be notified about (can be empty if "mfci" optional parameter is set). (STRING)
-status - The item is available for preorder (status=1), in stock (status=2) or on sale (status=3). Please note status=0 will remove your comments.(INTEGER:0|1|2|3)
-s - The above parameters signed with your private key. (STRING)
-
-Optional parameters (POST variables):
-mfci - If no JAN code, you can use MFC item ID. (INTEGER)
-message - Additional message you want to add to your comment (limited to 200 characters). (STRING)
-price - Price of the item at your shop (Ex: ¥5000 → 5000, $19.99 → 1999). (INTEGER)
-currency - Currency. Default value is JPY. (STRING:JPY|USD|EUR)
-sandbox - Run as test if equal 1 (no comments will be posted). Default value is 0. (INTEGER)
-
-Please note that the parameters must always be sent in the following order: key, jan, status, s, (optional parameters).
-'''
-
 
 def load_csv_data(csv_file):
     # Load info from CSV into a list of dictionaries
@@ -44,12 +27,29 @@ def load_csv_data(csv_file):
             data.append(dict(row))
 
     # Debug pprint
-    pprint(data)
+    # pprint(data)
 
     return data
 
 
 def notify_availability(figure_dict):
+    """
+    Required parameters (POST variables):
+    key - Your public key. (STRING)
+    jan - JAN code of the item you want users to be notified about (can be empty if "mfci" optional parameter is set). (STRING)
+    status - The item is available for preorder (status=1), in stock (status=2) or on sale (status=3). Please note status=0 will remove your comments.(INTEGER:0|1|2|3)
+    s - The above parameters signed with your private key. (STRING)
+
+    Optional parameters (POST variables):
+    mfci - If no JAN code, you can use MFC item ID. (INTEGER)
+    message - Additional message you want to add to your comment (limited to 200 characters). (STRING)
+    price - Price of the item at your shop (Ex: ¥5000 → 5000, $19.99 → 1999). (INTEGER)
+    currency - Currency. Default value is JPY. (STRING:JPY|USD|EUR)
+    sandbox - Run as test if equal 1 (no comments will be posted). Default value is 0. (INTEGER)
+
+    Please note that the parameters must always be sent in the following order: key, jan, status, s, (optional parameters).
+    """
+
     # Required parameters
     params = {
         'key': PUBLIC_KEY,
@@ -80,10 +80,12 @@ def notify_availability(figure_dict):
     response = requests.post(NOTIFY_ENDPOINT, data=params)
 
     # Debug pprint
-    pprint(response.json())
+    # pprint(response.json())
+
+    print(response.json()["status"])
 
 
 csv_data = load_csv_data("MFC.csv")
 
-for figure_dict in csv_data:
-    notify_availability(figure_dict)
+for item in csv_data:
+    notify_availability(item)
