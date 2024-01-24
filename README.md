@@ -6,12 +6,19 @@ The script utilizes the MFC API's notify-availability request to add comments to
 
 ## Usage
 
+Assuming you have python installed and have some knowledge of how to use python:
+
 Create a .env file in the project directory and add your public and private keys to the file.
 ```
 PUBLIC_KEY=your_public_key
 PRIVATE_KEY=your_private_key
 ```
 The script will not work if your keys are invalid.
+
+Install the required dependencies using the following command:
+```
+pip install -r requirements.txt
+```
 
 Place your csv file into the project directory. 
 Example csv:
@@ -22,7 +29,7 @@ status,jan,mfci,message,price,currency
 ```
 The csv file must include the following headers as they are required parameters: key, jan, status, s.
 
-Run the python script.
+Run the script with the following command:
 ```
 python main.py
 ```
