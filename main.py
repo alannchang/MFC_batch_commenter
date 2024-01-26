@@ -6,7 +6,8 @@ import base64
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlencode
-from pprint import pprint
+from datetime import datetime
+from pprint import pprint  # for debugging
 
 load_dotenv()
 
@@ -32,6 +33,16 @@ def load_csv_data(csv_file):
     # pprint(data)
 
     return data
+
+
+def handle_response(json, mfci):
+    if json['status'] == "FAILED":
+        error_msg = f"{datetime.now()}: MFCI:{mfci} | ERROR CODE {json['error']}: {json['message']}"
+        print(error_msg)
+        with open('error.log', 'a') as file:
+            file.write(error_msg + '\n')
+    else:
+        print(json['status'])
 
 
 def notify_availability(figure_dict):
@@ -80,11 +91,12 @@ def notify_availability(figure_dict):
 
     # Make the request
     response = requests.post(NOTIFY_ENDPOINT, data=params)
+    json_obj = response.json()
 
     # Debug pprint
-    # pprint(response.json())
+    # pprint(json_obj)
 
-    print(response.json()["status"])
+    handle_response(json_obj, params['mfci'])
 
 
 csv_data = load_csv_data("MFC.csv")
