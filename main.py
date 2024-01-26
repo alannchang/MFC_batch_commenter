@@ -13,9 +13,11 @@ load_dotenv()
 PUBLIC_KEY = os.getenv("PUBLIC_KEY")
 PRIVATE_KEY = os.getenv("PRIVATE_KEY")
 
-NOTIFY_ENDPOINT = "https://myfigurecollection.net/papi.php?mode=notify-availability"
-
+# CHANGE THESE BEFORE RUNNING
+PATH_TO_CSV = "MFC.csv"
 sandbox_mode = True
+
+NOTIFY_ENDPOINT = "https://myfigurecollection.net/papi.php?mode=notify-availability"
 
 
 def load_csv_data(csv_file):
@@ -66,7 +68,7 @@ def notify_availability(figure_dict):
 
     # Optional parameters (must come after key, jan, status, and s
     if figure_dict['price'] is not None and figure_dict['price'] != '':
-        params['price'] = int(figure_dict['price'])
+        params['price'] = int(float(figure_dict['price']) * 100)
     if figure_dict['message'] is not None and figure_dict['message'] != '':
         params['message'] = figure_dict['message']
     if figure_dict['mfci'] is not None and figure_dict['mfci'] != '':
